@@ -1,34 +1,22 @@
-const express=require('express')
-const mongoose=require('mongoose')
-const cors=require('cors')
-const EmployeeModal=require('./Models/Employee.js')
+require('dotenv').config();
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const logger = require('../SERVER/middlewares/logger.js');
+const authenticationRoutes = require('./routes/AuthenticationRoutes.js')
 
-const app=express()
-app.use(express.json())
-app.use(cors())
+const app = express();
+const port = process.env.PORT;
 
-mongoose.connect("mongodb://127.0.0.1:27017/employee")
+app.use(express.json());
+app.use(cors());
+app.use(logger);
 
-app.post('/login',(req,res)=>{
-    const {email,password}=req.body;
-    EmployeeModal.findOne({email:email})
-    .then(user =>{
-        if(user){
-            if(user.password ===password){
-                res.json("success")
-            }else{
-                res.json("Invalid Credentials")
-            }
-        }
-    })
-})
+mongoose.connect("mongodb://127.0.0.1:27017/employee");
 
-app.post('/register',(req,res)=>{
-EmployeeModal.create(req.body)
-.then(employees => res.json(employees))
-.catch(err => res.json(err))
-})
+// Use the authenticationRoutes middleware
+app.use('/', authenticationRoutes);
 
-app.listen(3001,()=>{
-    console.log('server is running ')
-})
+app.listen(port, () => {
+  console.log(`Server is running on ${port}`);
+});
