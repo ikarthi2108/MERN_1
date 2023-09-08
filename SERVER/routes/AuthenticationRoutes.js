@@ -2,14 +2,11 @@ const express = require("express");
 const EmployeeModal = require("../Models/Employee.js");
 const bcrypt = require("bcrypt");
 const {validateRegistration}=require('../middlewares/validator.js')
-const jwt=require('jsonwebtoken')
-const cookieParser =require('cookie-parser')
+
 
 const router = express.Router();
 
-router.use(cookieParser())
-
-// Login route
+//login route
 router.post("/login", (req, res) => {
   const { email, password } = req.body;
   EmployeeModal.findOne({ email: email }).then((user) => {

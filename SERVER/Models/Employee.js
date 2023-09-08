@@ -17,7 +17,7 @@ const EmployeeSchema=new mongoose.Schema({
     number:{
         type: Number,
         required: true
-    },                     //database schema this is the schema for the employee table 
+    },                     
     email:{
         type:String,
         required:true,
