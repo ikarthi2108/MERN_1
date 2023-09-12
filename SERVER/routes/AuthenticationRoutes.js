@@ -6,6 +6,19 @@ const {validateRegistration}=require('../middlewares/validator.js')
 
 const router = express.Router();
 
+// Register route
+router.post("/register",validateRegistration, (req, res) => {
+  const { name, username, number, email, password } = req.body;
+  bcrypt
+    .hash(password, 10)
+    .then((hash) => {
+      EmployeeModal.create({ name, username, number, email, password: hash })
+        .then((employees) => res.json(employees))
+        .catch((err) => res.json(err));
+    })
+    .catch((err) => console.log(err.message));
+});
+
 //login route
 router.post("/login", (req, res) => {
   const { email, password } = req.body;
@@ -30,17 +43,5 @@ router.post("/login", (req, res) => {
   });
 });
 
-// Register route
-router.post("/register",validateRegistration, (req, res) => {
-  const { name, username, number, email, password } = req.body;
-  bcrypt
-    .hash(password, 10)
-    .then((hash) => {
-      EmployeeModal.create({ name, username, number, email, password: hash })
-        .then((employees) => res.json(employees))
-        .catch((err) => res.json(err));
-    })
-    .catch((err) => console.log(err.message));
-});
 
 module.exports = router;
