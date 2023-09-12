@@ -1,10 +1,10 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const bcrypt = require('bcrypt');
-const EmployeeModel = require('../Models/Employee');
+const bcrypt = require("bcrypt");
+const EmployeeModel = require("../Models/Employee");
 
 // PUT change user's password by email
-router.put('/change-password/:email', async (req, res) => {
+router.put("/change-password/:email", async (req, res) => {
   const { email } = req.params;
   const { newPassword } = req.body;
 

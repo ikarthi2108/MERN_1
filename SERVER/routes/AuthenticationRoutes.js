@@ -1,13 +1,12 @@
 const express = require("express");
 const EmployeeModal = require("../Models/Employee.js");
 const bcrypt = require("bcrypt");
-const {validateRegistration}=require('../middlewares/validator.js')
-
+const { validateRegistration } = require("../middlewares/validator.js");
 
 const router = express.Router();
 
 // Register route
-router.post("/register",validateRegistration, (req, res) => {
+router.post("/register", validateRegistration, (req, res) => {
   const { name, username, number, email, password } = req.body;
   bcrypt
     .hash(password, 10)
@@ -24,7 +23,8 @@ router.post("/login", (req, res) => {
   const { email, password } = req.body;
   EmployeeModal.findOne({ email: email }).then((user) => {
     if (user) {
-      bcrypt.compare(password, user.password, (err, response) => {     // hashing the password
+      bcrypt.compare(password, user.password, (err, response) => {
+        // hashing the password
         if (response) {
           res.json({
             status: "success",
@@ -42,6 +42,5 @@ router.post("/login", (req, res) => {
     }
   });
 });
-
 
 module.exports = router;

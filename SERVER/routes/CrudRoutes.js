@@ -1,10 +1,8 @@
 const express = require("express");
 
-const EmployeeDetailModel=require("../Models/EmployeeDetail.js")
-
+const EmployeeDetailModel = require("../Models/EmployeeDetail.js");
 
 const router = express.Router();
-
 
 //method to add the employees
 router.post("/add", async (req, res) => {
@@ -16,13 +14,13 @@ router.post("/add", async (req, res) => {
       image,
       department,
       salary,
-      experience
+      experience,
     });
 
-    res.status(201).json(savedEmployeeDetail); 
+    res.status(201).json(savedEmployeeDetail);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: "Server error" });
   }
 });
 
@@ -42,7 +40,9 @@ router.get("/employee-details", async (req, res) => {
 router.delete("/employee-details/:employeeid", async (req, res) => {
   try {
     const employeeId = req.params.employeeid;
-    const deleteEmployee = await EmployeeDetailModel.findByIdAndRemove(employeeId);
+    const deleteEmployee = await EmployeeDetailModel.findByIdAndRemove(
+      employeeId
+    );
 
     if (!deleteEmployee) {
       return res.status(404).json({ error: "Employee not found" });
@@ -54,7 +54,6 @@ router.delete("/employee-details/:employeeid", async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
-
 
 router.put("/employee-details/:employeeid", async (req, res) => {
   try {
@@ -78,6 +77,4 @@ router.put("/employee-details/:employeeid", async (req, res) => {
   }
 });
 
-
-
-module.exports=router
+module.exports = router;

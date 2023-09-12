@@ -1,14 +1,14 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const EmployeeDetailSchema = new mongoose.Schema({
- empname: {
+  empname: {
     type: String,
     required: true,
     minlength: 2,
     maxlength: 30,
   },
   image: {
-    type: String, 
+    type: String,
   },
   department: {
     type: String,
@@ -24,6 +24,9 @@ const EmployeeDetailSchema = new mongoose.Schema({
   },
 });
 
-const EmployeeDetailModel = mongoose.model('EmployeeDetail', EmployeeDetailSchema);
+const EmployeeDetailModel = mongoose.model(
+  "EmployeeDetail",
+  EmployeeDetailSchema
+);
 
 module.exports = EmployeeDetailModel;
