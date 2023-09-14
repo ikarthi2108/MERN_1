@@ -1,11 +1,7 @@
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 
-function verifyToken(req, res, next) {
-  const token = req.cookies.token; // Assuming you store the JWT in a cookie
-  if (!token) {
-    return res.status(401).json({ message: "Unauthorized" });
-  }
+const verifyToken=(req, res, next)=> {
 
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) {
