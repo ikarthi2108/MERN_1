@@ -8,7 +8,8 @@ const CrudRoutes = require("./routes/CrudRoutes.js");
 const ChangePasswordRoutes = require("./routes/ChangePasswordRoute.js");
 const ProfileRoutes = require("./routes/ProfileRoutes.js");
 const DashBoardRoutes = require("./routes/DashBoard.js");
-
+const ForgetPasswordRoutes=require("./routes/ForgetPasswordRoute.js")
+const announcementRoutes=require("./routes/AnouncementRoute.js")
 const app = express();
 const port = process.env.PORT;
 
@@ -26,6 +27,8 @@ app.use("/", CrudRoutes);
 app.use("/", ChangePasswordRoutes);
 app.use("/", ProfileRoutes);
 app.use("/", DashBoardRoutes);
+app.use("/",ForgetPasswordRoutes)
+app.use("/",announcementRoutes)
 
 app.listen(port, () => {
   console.log(`Server is running on ${port}`);
