@@ -6,58 +6,60 @@ const { validateRegistration } = require("../middlewares/validator.js");
 
 const router = express.Router();
 
-let refreshTokens = [];
+router.post('/register', validateRegistration, async (req, res) => {
+  const { name, username, number, email, password, role } = req.body;
 
-// Register route
-router.post("/register", validateRegistration, (req, res) => {
-  const { name, username, number, email, password,role } = req.body;
-  bcrypt
-    .hash(password, 10)
-    .then((hash) => {
-      EmployeeModal.create({ name, username, number, email, password: hash,role })
-        .then((employees) => res.json(employees))
-        .catch((err) => res.json(err));
-    })
-    .catch((err) => console.log(err.message));
+  try {
+
+    const existingUser = await EmployeeModal.findOne({ email });     // Check if the email is already registered
+  if (existingUser) {
+      return res.status(400).json({ error: 'Email is already registered.' });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10); // Hash the password
+
+    // Create a new employee record
+    const newEmployee = await EmployeeModal.create({
+      name,
+      username,
+      number,
+      email,
+      password: hashedPassword,
+      role,
+    });
+
+    res.status(201).json(newEmployee);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
+
 const secret_key = process.env.JWT_SECRET;
-const refresh_key = process.env.JWT_REFRESH_SECRET;
 
 router.post("/login", async (req, res) => {
-  const { email, password, rememberMe } = req.body;
+  const { email, password } = req.body;
 
   try {
     const user = await EmployeeModal.findOne({ email: email });
 
     if (user) {
       const isValid = await bcrypt.compare(password, user.password);
-      // console.log(password);
-      // console.log(user.password);
+
       if (isValid) {
-        let userPayload = { email: user.email };
-        if (rememberMe) {
-          userPayload.password = user.password;
-        }
-        const accessToken = jwt.sign(userPayload, secret_key, {
+        const accessToken = jwt.sign({ email: user.email }, secret_key, {
           expiresIn: "1m",
         });
-
-        const refreshToken = jwt.sign(userPayload, refresh_key, {
-          expiresIn: "1d",
-        });
-
-        refreshTokens.push(refreshToken);
 
         res.json({
           status: "success",
           user: {
             email: user.email,
-            username:user.username,
-            role:user.role
+            username: user.username,
+            role: user.role
           },
           accessToken: accessToken,
-          refreshToken: refreshToken,
         });
       } else {
         res.status(401).json({ error: "Password is incorrect" });
@@ -71,35 +73,4 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.post("/refresh", async (req, res) => {
-  const { refresh_token } = req.body;
-
-  if (!refresh_token) {
-    return res.status(401).json({ error: "unauthorized" });
-  };
-  if(!refreshTokens.includes(refresh_token)){
-    return res.status(403).json({error:"Access Denied"})
-  }
-
-  try{
-    const jwtData=jwt.verify(refresh_token,refresh_key)
-    const {email}=jwtData;
-
-    const newAccessToken = jwt.sign({ email }, secret_key, {
-      expiresIn: "1m",
-    });
-    
-    console.log(newAccessToken);
-
-    if(newAccessToken){
-      res.status(201).json({status:"Success",accessToken:newAccessToken})
-    }else{
-      return res.status(500).json({error:"Internal Server Error"})
-    }
-  }catch(error){
-         throw error;
-  }
-});
-
 module.exports = router;
-

@@ -30,6 +30,10 @@ const EmployeeSchema = new mongoose.Schema({
   role:{
     type:String,
     required:true,
+  },
+  profile: {
+    type: String,
+    default: "https://nigelbutler.co.uk/wp-content/uploads/2016/09/no-person.png", 
   }
 });
 

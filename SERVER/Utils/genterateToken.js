@@ -1,3 +1,0 @@
-const generateAccessToken=(email)=>{
-
-}
