@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const EmployeeModel = require("../Models/Employee");
 
-// GET user data by email
 router.get("/user-data", (req, res) => {
   const { email } = req.query;
 
@@ -21,7 +20,6 @@ router.get("/user-data", (req, res) => {
     });
 });
 
-// PUT update user data by ID
 router.put("/update-user/:id", (req, res) => {
   const { id } = req.params;
   const updatedUserData = req.body;

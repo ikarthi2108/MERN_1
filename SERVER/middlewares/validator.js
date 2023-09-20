@@ -17,7 +17,6 @@ const validateRegistration = [
   },
 ];
 
-// Export the validation middleware
 module.exports = {
   validateRegistration,
 };

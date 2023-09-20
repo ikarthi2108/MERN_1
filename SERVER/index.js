@@ -9,7 +9,9 @@ const ChangePasswordRoutes = require("./routes/ChangePasswordRoute.js");
 const ProfileRoutes = require("./routes/ProfileRoutes.js");
 const DashBoardRoutes = require("./routes/DashBoard.js");
 const ForgetPasswordRoutes=require("./routes/ForgetPasswordRoute.js")
-const announcementRoutes=require("./routes/AnouncementRoute.js")
+const announcementRoutes=require("./routes/AnouncementRoute.js");
+const requestRoutes=require('./routes/RequestRoutes.js');
+const empHolidayRoutes=require('./routes/EmpScheduleRoutes.js')
 const app = express();
 const port = process.env.PORT;
 
@@ -28,7 +30,9 @@ app.use("/", ChangePasswordRoutes);
 app.use("/", ProfileRoutes);
 app.use("/", DashBoardRoutes);
 app.use("/",ForgetPasswordRoutes)
-app.use("/",announcementRoutes)
+app.use("/",announcementRoutes);
+app.use("/",requestRoutes)
+app.use("/",empHolidayRoutes)
 
 app.listen(port, () => {
   console.log(`Server is running on ${port}`);

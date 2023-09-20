@@ -9,7 +9,7 @@ const logger = (req, res, next) => {
       console.error("Error in Writing to the Log file:", err);
     }
   });
-  next(); // to go to the next middleware
+  next(); //go to the next middleware
 };
 
 module.exports = logger;

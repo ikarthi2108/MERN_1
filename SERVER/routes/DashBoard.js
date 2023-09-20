@@ -17,7 +17,7 @@ router.get("/All-Data", async (req, res) => {
 });
 
 
-router.post("/Emp-leaves", async (req, res) => {
+router.post("/Emp-working", async (req, res) => {
   const { year, month, numberOfDays } = req.body;
   try {
     const data = await EmployeeDataModel.create({ year, month, numberOfDays });

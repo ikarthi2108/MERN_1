@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
-// Define the schema for EmployeeData
+
 const EmployeeDataSchema = new mongoose.Schema({
     year: {
         type: Number,
         required: true,
-        min: 1900, // Minimum year value
-        max: 2100  // Maximum year value
+        min: 1900, 
+        max: 2100  
     },
     month: {
         type: String,
@@ -15,12 +15,12 @@ const EmployeeDataSchema = new mongoose.Schema({
     numberOfDays: {
         type: Number,
         required: true,
-        min: 1,     // Minimum number of days
-        max: 31     // Maximum number of days (for simplicity; adjust as needed)
+        min: 1,     
+        max: 31    
     }
 });
 
-// Create the EmployeeData model
+
 const EmployeeDataModel = mongoose.model('EmployeeHolidays', EmployeeDataSchema);
 
 module.exports = EmployeeDataModel; 
